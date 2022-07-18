@@ -17,7 +17,6 @@ function App() {
     <Navbar/>
   <Switch>
   <Route exact path='/'>
-    
     <Dashboard/>
   </Route>
   <Route path='/login'>
