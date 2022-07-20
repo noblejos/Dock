@@ -10,6 +10,7 @@ export default function Signup() {
   const [displayName, setDispalyName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [thumbnail, setThumbnail]  = useState("")
   const {signup, error, isPending}= useSignup()
   
   const handleSubmit = (e) => {
@@ -27,6 +28,7 @@ export default function Signup() {
           type="email" 
           onChange={(e) => setEmail(e.target.value)} 
           value={email}
+          required
         />
       </label>
       
@@ -46,9 +48,18 @@ export default function Signup() {
           type="text" 
           onChange={(e) => setDispalyName(e.target.value)} 
           value={displayName}
+        />
+      </label>
+      <label>
+        <span>thumbnail:</span>
+        <input 
+          type="file" 
+          onChange={(e) => setThumbnail(e.target.value)} 
+          value={thumbnail}
           
         />
       </label>
+      
      {isPending?
       <button className="btn" disabled>Loading...</button>:
       <button className="btn">Signup</button>

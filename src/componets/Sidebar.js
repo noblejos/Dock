@@ -16,9 +16,10 @@ export default function Sidebar() {
         <nav className="links">
           <ul>
             <li>
-              <NavLink exact to="/">
+              <NavLink exact to="/"><a>
                 <img src={DashboardIcon} alt="dashboard icon" />
                 <span>Dashboard</span>
+                </a>
               </NavLink>
             </li>
             <li>
