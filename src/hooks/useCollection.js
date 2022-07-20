@@ -1,5 +1,5 @@
 import { useState,useEffect,useRef } from "react"
-import { projectFirestore } from "../components/firebase/config"
+import { projectFirestore } from "../firebase/config"
 
 
 export const useCollection=(collection,_query,_orderBy)=>{
