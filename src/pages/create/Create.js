@@ -2,8 +2,10 @@ import {useEffect, useState}  from 'react'
 import Select from 'react-select'
 import './Create.css'
 import {useCollection} from '../../hooks/useCollection.js'
-import { timestamp } from '../../firebase/config'
+import { timestamp } from '../../firebase/config.js'
 import { useAuthContext } from '../../hooks/useAuthContext'
+import {useFirestore } from "../../hooks/useFirestore.js"
+import  { useHistory } from "react-router-dom"
 
 const categories=[
   {value:'development', label:'Development'},
@@ -13,6 +15,8 @@ const categories=[
 ]
 
 export default function Create() {
+  const history = useHistory()
+  const {addDocument, response } = useFirestore("projects")
   const {documents}=useCollection('users')
   const {user} = useAuthContext()
 
@@ -35,7 +39,7 @@ export default function Create() {
     }
   },[documents])
 
-    const handleSubmit=(e)=>{
+    const handleSubmit= async(e)=>{
         e.preventDefault()
         setFormErrors(null)
 
@@ -47,6 +51,13 @@ export default function Create() {
           setFormErrors("please select a user to assign project to")
           return
         }
+
+        const createdBy={
+          displayName:user.displayName,
+          photoUrl:user.photoURL,
+          id:user.uid
+        }
+
         const assignedUsersList= assignedUsers.map((u)=>{
           return{
             displayName:u.value.displayName,
@@ -54,11 +65,7 @@ export default function Create() {
             id: user.uid
           }
         })
-          const createdBy={
-            displayName:user.displayName,
-            photoUrl:user.photoURL,
-            id:user.uid
-          }
+          
         const project={
           name,
           details,
@@ -69,9 +76,13 @@ export default function Create() {
           assignedUsersList
           
         }
-        // console.log(name,dueDate,details,category.value, assignedUsers)
-        console.log(user)
-        console.log(project)
+
+        await addDocument(project)
+        if (!response.error){
+            history.push("/")
+        }        
+        // console.log(user)
+        // console.log(project)
     }
 
   return (
